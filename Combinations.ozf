@@ -1,0 +1,33 @@
+declare
+fun {Fact N}
+   case N of
+      0 then 1
+   [] X then X * {Fact X-1}
+   end
+end
+fun {Comb N K}
+   {Fact N} div ({Fact K}*{Fact N-K})
+end
+
+{Browse ['Not efficient comb: '{Comb 10 3}]}
+
+fun {Denominator N K X}
+   if (X==(K-1)) then (N - K + 1)
+   else (N - X) * {Denominator N K (X+1)}
+   end
+end
+fun {BetterComb N K}
+   if (K==0) then 1
+   else {Denominator N K 0} div {Fact K}
+   end
+end
+
+{Browse ['a) A better comb: '{BetterComb 10 3}]}
+
+fun {BestComb N K}
+   if (K==0) then {IntToFloat 1}
+   else ({IntToFloat (N-K+1)} / {IntToFloat K}) * {BestComb N (K-1)}
+   end
+end
+
+{Browse ['b) The best comb: '{BestComb 10 3}]}
