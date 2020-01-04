@@ -1,0 +1,12 @@
+declare
+% Not sure if this problem can be solved only with a function heather like  {Position Xs Y}
+fun {Position Xs Y Counter}
+   case Xs of
+      nil then 0
+   [] H|T then if (H==Y) then Counter
+	       else {Position T Y (Counter+1)} end
+   end
+end
+
+{Browse ['Element has been found at position' {Position [a b c] c 1}]}
+{Browse ['Element has not been found. So inexistent position:' {Position [a b c] d 1}]}

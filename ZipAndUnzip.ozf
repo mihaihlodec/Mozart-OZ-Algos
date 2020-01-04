@@ -1,0 +1,25 @@
+declare
+fun {Zip Xs#Ys}
+   case Xs of
+      nil then nil
+   [] H|T then case Ys of
+		  nil then nil
+	       [] Q|W then H#Q|{Zip T#W} end
+   end
+end
+
+{Browse ['Zip: '{Zip ([a b c]#[1 2 3])}]}
+
+% Xs represents the initial data source
+% L1 and L2 are needed for passing the built-up lists from one call to another
+fun {UnZip Xs L1 L2}
+   case Xs of 
+      nil then L1#L2
+   [] H|T then
+      case H of
+	 A1#A2 then {UnZip T {List.append L1 [A1]} {List.append L2 [A2]}}
+      end
+   end
+end
+
+{Browse ['UnZip: '{UnZip [a#1 b#2 c#3] nil nil}]}

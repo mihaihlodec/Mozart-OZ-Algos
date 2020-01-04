@@ -1,0 +1,10 @@
+declare
+fun {Member L E}
+   case L of
+      nil then false
+   [] H|T then if (H==E) then true else {Member T E} end
+   end
+end
+
+{Browse ['Does element exist in list? '{Member [a b c] d}]}
+{Browse ['Does element exist in list? '{Member [a b c] b}]}
