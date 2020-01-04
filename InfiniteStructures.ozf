@@ -1,0 +1,40 @@
+declare
+fun lazy {Sieve L}
+   case L  of
+      nil  then nil
+   [] H|T then H|{Sieve {Filter T H}}
+   end
+end
+fun lazy {Filter L H}
+   case L of
+      nil then nil
+   [] A|As then if (A mod H)==0 then {Filter As H}
+		else A|{Filter As H}  end
+   end
+end
+fun {Prime}
+   {Sieve {Gen 2}}
+end
+fun lazy {Gen N}
+   N|{Gen N+1}
+end
+
+% get the first element of the tail of tail of Prime, so 3rd prime no.
+% {Browse {Prime}.2.2.1}
+
+fun {CheckPrime N L}
+   case L of
+      nil then nil
+   [] H|T then if H>N then H else {CheckPrime N T} end
+   end
+end
+
+fun {GetAfter N}
+   case {Prime} of
+      nil then nil
+   [] H|T then if (H>N) then H else {CheckPrime N T} end
+   end
+end
+
+{Browse ['Getting the first prime after given value '{GetAfter 9}]}
+
