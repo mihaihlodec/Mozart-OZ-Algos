@@ -1,0 +1,115 @@
+%     5
+%    / \
+%   4   7
+%  /   / \
+% 3   6   8
+
+declare
+R = node(l:N1 r:N2 v:5)
+N1 = node(l:N3 r:nil v:4)
+N2 = node(l:N4 r:N5 v:7)
+N3 = node(l:nil r:nil v:3)
+N4 = node(l:nil r:nil v:6)
+N5 = node(l:nil r:nil v:8)
+
+fun {IsLeaff N}
+   if N==nil then
+      false
+    else
+       if {And N.l==nil N.r==nil} then
+	  true
+       else
+	  false
+       end
+    end
+end
+
+fun {InsertBST R V}
+   if {IsLeaff R} then
+      if V < R.v then
+	 node(l:node(nil nil V) r:nil v:R.v)
+      else
+	 node(l:nil r:node(nil nil V) v:R.v)
+      end
+   else
+      local LT RT Res in
+
+	 if V < R.v then
+	    if R.l \= nil then
+	       LT = {InsertBST R.l V}
+	    else LT=nil
+	    end
+	 else
+	    LT = R.l
+	 end
+
+	 if V >= R.v then
+	    if R.r \= nil then
+	       RT = {InsertBST R.r V}
+	    else RT = nil
+	    end
+	 else
+	    RT = R.r
+	 end
+	 
+	 % return result
+	 node(l:LT r:RT v:R.v)
+      end
+   end
+end
+
+{Browse ['Inserting a new element in BST: '{InsertBST R 11}]}
+
+fun {Smallest R}
+   if R==nil then nil
+   else
+      if R.l==nil then R.v
+      else {Smallest R.l}
+      end
+   end
+end
+
+{Browse ['Smallest element in tree is: '{Smallest R}]}
+
+fun {Biggest R}
+   if R==nil then nil
+   else
+      if R.r==nil then R.v
+      else {Biggest R.r}
+      end
+   end
+end
+
+{Browse ['Biggest element in tree is: '{Biggest R}]}
+
+fun {IsSortedBST R}
+   if R==nil then
+      true
+   else
+      local LL RR in
+	 if R.l\=nil then
+	    LL = {Smallest R.l}
+	    if R.r\=nil then
+	       RR = {Biggest R.r}
+	       if {Or LL>R.v RR<R.v} then
+		  false
+	       else
+		  {And {IsSortedBST R.l} {IsSortedBST R.r}}
+	       end
+	    else
+	       {IsSortedBST R.l}
+	    end
+	 else
+	    if R.r\=nil then
+	       {IsSortedBST R.r}
+	    else
+	       true
+	    end
+	 end
+      end
+   end
+end
+
+{Browse ['Is the tree sorted: '{IsSortedBST R}]}
+   
+	 
